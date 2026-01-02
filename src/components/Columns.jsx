@@ -1,11 +1,10 @@
-import { useState } from 'react'
 import { useSpring, animated } from '@react-spring/three'
 import useGameStore from '../store/gameStore'
 import { GRID_SIZE } from '../game/winningLines'
 
 const PLAYER_COLORS = {
-  0: '#00f5ff',
-  1: '#ff2d95'
+  0: '#deb887', // Light maple wood
+  1: '#5c4033'  // Dark walnut wood
 }
 
 export default function Columns() {
@@ -23,28 +22,33 @@ export default function Columns() {
 }
 
 function Column({ x, z }) {
-  const [hovered, setHovered] = useState(false)
   const dropPiece = useGameStore((state) => state.dropPiece)
   const getDropY = useGameStore((state) => state.getDropY)
   const currentPlayer = useGameStore((state) => state.currentPlayer)
   const winner = useGameStore((state) => state.winner)
   const isDraw = useGameStore((state) => state.isDraw)
+  const setIsHoveringBoard = useGameStore((state) => state.setIsHoveringBoard)
+  const hoveredColumn = useGameStore((state) => state.hoveredColumn)
+  const setHoveredColumn = useGameStore((state) => state.setHoveredColumn)
   
   const dropY = getDropY(x, z)
   const isFull = dropY === -1
   const gameOver = winner !== null || isDraw
   
+  // Check if this column is hovered (either directly or via 2D panel)
+  const isHovered = hoveredColumn?.x === x && hoveredColumn?.z === z
+  
   // Hover animation for the column highlight
   const { opacity, highlightY } = useSpring({
-    opacity: hovered && !isFull && !gameOver ? 0.2 : 0,
+    opacity: isHovered && !isFull && !gameOver ? 0.3 : 0,
     highlightY: (GRID_SIZE / 2),
     config: { tension: 300, friction: 20 }
   })
   
   // Ghost piece animation
   const { ghostOpacity, ghostScale } = useSpring({
-    ghostOpacity: hovered && !isFull && !gameOver ? 0.6 : 0,
-    ghostScale: hovered && !isFull && !gameOver ? 1 : 0,
+    ghostOpacity: isHovered && !isFull && !gameOver ? 0.6 : 0,
+    ghostScale: isHovered && !isFull && !gameOver ? 1 : 0,
     config: { tension: 400, friction: 25 }
   })
   
@@ -58,13 +62,15 @@ function Column({ x, z }) {
   const handlePointerOver = (e) => {
     e.stopPropagation()
     if (!gameOver) {
-      setHovered(true)
+      setHoveredColumn({ x, z })
+      setIsHoveringBoard(true)
       document.body.style.cursor = isFull ? 'not-allowed' : 'pointer'
     }
   }
   
   const handlePointerOut = () => {
-    setHovered(false)
+    setHoveredColumn(null)
+    setIsHoveringBoard(false)
     document.body.style.cursor = 'auto'
   }
   
@@ -111,11 +117,11 @@ function Column({ x, z }) {
       <mesh position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <circleGeometry args={[0.4, 32]} />
         <meshStandardMaterial
-          color={hovered && !isFull && !gameOver ? PLAYER_COLORS[currentPlayer] : '#2d2d44'}
+          color={isHovered && !isFull && !gameOver ? PLAYER_COLORS[currentPlayer] : '#a08060'}
           transparent
-          opacity={0.4}
-          emissive={hovered && !isFull && !gameOver ? PLAYER_COLORS[currentPlayer] : '#000000'}
-          emissiveIntensity={hovered ? 0.5 : 0}
+          opacity={0.5}
+          emissive={isHovered && !isFull && !gameOver ? PLAYER_COLORS[currentPlayer] : '#000000'}
+          emissiveIntensity={isHovered ? 0.3 : 0}
         />
       </mesh>
     </group>

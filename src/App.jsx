@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 import Scene from './components/Scene'
 import HUD from './components/HUD'
 import GameOverModal from './components/GameOverModal'
+import MovePanel from './components/MovePanel'
 import useGameStore from './store/gameStore'
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
       
       <div className="ui-overlay">
         <HUD />
+        <MovePanel />
         {gameOver && <GameOverModal />}
       </div>
     </>

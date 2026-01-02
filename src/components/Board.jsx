@@ -55,11 +55,11 @@ export default function Board() {
         <mesh key={`platform-${y}`} position={[2, y, 2]}>
           <boxGeometry args={[4, 0.02, 4]} />
           <meshStandardMaterial 
-            color="#2a2a4e"
+            color="#c4a574"
             transparent
-            opacity={y === 0 ? 0.9 : 0.35}
-            metalness={0.5}
-            roughness={0.5}
+            opacity={y === 0 ? 0.95 : 0.4}
+            metalness={0.1}
+            roughness={0.8}
           />
         </mesh>
       ))}
@@ -94,11 +94,11 @@ function Line({ start, end }) {
     <mesh position={[midX, midY, midZ]}>
       <boxGeometry args={size} />
       <meshStandardMaterial 
-        color="#5a5a7a"
+        color="#8b7355"
         transparent
-        opacity={0.9}
-        metalness={0.3}
-        roughness={0.7}
+        opacity={0.95}
+        metalness={0.1}
+        roughness={0.8}
       />
     </mesh>
   )

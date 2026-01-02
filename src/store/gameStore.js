@@ -65,10 +65,16 @@ const useGameStore = create((set, get) => ({
   isDraw: false,
   hoveredColumn: null, // { x, z }
   lastMove: null, // { x, y, z, player }
+  isHoveringBoard: false, // Track if user is hovering over the board
   
   // Set the hovered column for preview
   setHoveredColumn: (column) => {
     set({ hoveredColumn: column })
+  },
+  
+  // Set board hover state (for disabling auto-rotate)
+  setIsHoveringBoard: (isHovering) => {
+    set({ isHoveringBoard: isHovering })
   },
   
   // Get where a piece would land in a column
@@ -121,7 +127,8 @@ const useGameStore = create((set, get) => ({
       winningLine: null,
       isDraw: false,
       hoveredColumn: null,
-      lastMove: null
+      lastMove: null,
+      isHoveringBoard: false
     })
   }
 }))

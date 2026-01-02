@@ -4,13 +4,13 @@ import useGameStore from '../store/gameStore'
 import { GRID_SIZE } from '../game/winningLines'
 
 const PLAYER_COLORS = {
-  0: '#00f5ff', // Cyan
-  1: '#ff2d95'  // Magenta
+  0: '#deb887', // Light maple wood
+  1: '#5c4033'  // Dark walnut wood
 }
 
 const PLAYER_EMISSIVE = {
-  0: '#00a5aa',
-  1: '#aa1d65'
+  0: '#8b7355',
+  1: '#3d2817'
 }
 
 export default function Pieces() {
@@ -91,9 +91,9 @@ function Piece({ position, player, isWinning, animate, targetY }) {
         color={PLAYER_COLORS[player]}
         emissive={PLAYER_EMISSIVE[player]}
         emissiveIntensity={emissiveIntensity}
-        metalness={0.3}
-        roughness={0.2}
-        envMapIntensity={0.8}
+        metalness={0.1}
+        roughness={0.7}
+        envMapIntensity={0.4}
       />
     </animated.mesh>
   )
