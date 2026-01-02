@@ -39,9 +39,8 @@ function Column({ x, z }) {
   const isHovered = hoveredColumn?.x === x && hoveredColumn?.z === z
   
   // Hover animation for the column highlight
-  const { opacity, highlightY } = useSpring({
+  const { opacity } = useSpring({
     opacity: isHovered && !isFull && !gameOver ? 0.3 : 0,
-    highlightY: (GRID_SIZE / 2),
     config: { tension: 300, friction: 20 }
   })
   
@@ -76,8 +75,9 @@ function Column({ x, z }) {
   
   return (
     <group position={[x + 0.5, 0, z + 0.5]}>
-      {/* Invisible clickable area */}
+      {/* Invisible clickable area - positioned to cover all 4 blocks */}
       <mesh
+        position={[0, GRID_SIZE / 2, 0]}
         onClick={handleClick}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
@@ -86,13 +86,14 @@ function Column({ x, z }) {
         <meshBasicMaterial transparent opacity={0} />
       </mesh>
       
-      {/* Column highlight when hovered */}
-      <animated.mesh position-y={highlightY}>
+      {/* Column highlight when hovered - full 4 blocks tall */}
+      <animated.mesh position={[0, GRID_SIZE / 2, 0]} renderOrder={10}>
         <boxGeometry args={[0.9, GRID_SIZE, 0.9]} />
         <animated.meshBasicMaterial
           color={PLAYER_COLORS[currentPlayer]}
           transparent
           opacity={opacity}
+          depthWrite={false}
         />
       </animated.mesh>
       
@@ -101,6 +102,7 @@ function Column({ x, z }) {
         <animated.mesh 
           position={[0, dropY + 0.5, 0]}
           scale={ghostScale}
+          renderOrder={100}
         >
           <sphereGeometry args={[0.35, 16, 16]} />
           <animated.meshStandardMaterial
@@ -108,7 +110,8 @@ function Column({ x, z }) {
             transparent
             opacity={ghostOpacity}
             emissive={PLAYER_COLORS[currentPlayer]}
-            emissiveIntensity={0.3}
+            emissiveIntensity={0.5}
+            depthTest={false}
           />
         </animated.mesh>
       )}
