@@ -74,6 +74,7 @@ const useGameStore = create((set, get) => ({
   lastMove: null, // { x, y, z, player }
   isHoveringBoard: false, // Track if user is hovering over the board
   autoRotateEnabled: true, // Toggle for auto-rotation
+  showGameOverModal: true, // Whether to show the game over modal
   
   // Game mode settings
   gameMode: GAME_MODES.TWO_PLAYER, // 'two-player' or 'single-player'
@@ -93,6 +94,11 @@ const useGameStore = create((set, get) => ({
   // Toggle auto-rotation on/off
   toggleAutoRotate: () => {
     set((state) => ({ autoRotateEnabled: !state.autoRotateEnabled }))
+  },
+  
+  // Dismiss the game over modal to view the board
+  dismissGameOverModal: () => {
+    set({ showGameOverModal: false })
   },
   
   // Set game mode
@@ -169,7 +175,8 @@ const useGameStore = create((set, get) => ({
       hoveredColumn: null,
       lastMove: null,
       isHoveringBoard: false,
-      autoRotateEnabled: true
+      autoRotateEnabled: true,
+      showGameOverModal: true
       // gameMode, selectedBotId, and botPlayer are preserved
     })
   }

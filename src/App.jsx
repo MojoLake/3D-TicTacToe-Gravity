@@ -8,7 +8,7 @@ import useGameStore from './store/gameStore'
 import useBotTurn from './hooks/useBotTurn'
 
 export default function App() {
-  const { winner, isDraw } = useGameStore()
+  const { winner, isDraw, showGameOverModal } = useGameStore()
   const gameOver = winner !== null || isDraw
   
   // Hook to handle bot turns in single player mode
@@ -29,7 +29,7 @@ export default function App() {
       <div className="ui-overlay">
         <HUD />
         <MovePanel />
-        {gameOver && <GameOverModal />}
+        {gameOver && showGameOverModal && <GameOverModal />}
       </div>
     </>
   )

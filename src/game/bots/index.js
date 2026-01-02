@@ -24,6 +24,8 @@ import { GRID_SIZE } from '../winningLines'
 // Import bot implementations
 import { RandomBot } from './RandomBot'
 import { GreedyBot } from './GreedyBot'
+import { HardBot } from './HardBot'
+import { ExpertBot } from './ExpertBot'
 
 /**
  * Get all valid moves (columns that aren't full)
@@ -106,11 +108,13 @@ export function createGameState(board, currentPlayer) {
 export const BOTS = {
   [RandomBot.id]: RandomBot,
   [GreedyBot.id]: GreedyBot,
+  [HardBot.id]: HardBot,
+  [ExpertBot.id]: ExpertBot,
 }
 
 // Default bot
 export const DEFAULT_BOT_ID = RandomBot.id
 
 // Export individual bots for direct import if needed
-export { RandomBot, GreedyBot }
+export { RandomBot, GreedyBot, HardBot, ExpertBot }
 

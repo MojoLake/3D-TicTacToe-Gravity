@@ -5,6 +5,7 @@ export default function GameOverModal() {
   const winner = useGameStore((state) => state.winner)
   const isDraw = useGameStore((state) => state.isDraw)
   const resetGame = useGameStore((state) => state.resetGame)
+  const dismissGameOverModal = useGameStore((state) => state.dismissGameOverModal)
   const gameMode = useGameStore((state) => state.gameMode)
   const botPlayer = useGameStore((state) => state.botPlayer)
   const selectedBotId = useGameStore((state) => state.selectedBotId)
@@ -41,9 +42,14 @@ export default function GameOverModal() {
       <div className="modal">
         <h2 className={titleClass}>{title}</h2>
         <p>{subtitle}</p>
-        <button className="play-again-btn" onClick={resetGame}>
-          Play Again
-        </button>
+        <div className="modal-buttons">
+          <button className="play-again-btn" onClick={resetGame}>
+            Play Again
+          </button>
+          <button className="view-board-btn" onClick={dismissGameOverModal}>
+            View Board
+          </button>
+        </div>
       </div>
     </div>
   )

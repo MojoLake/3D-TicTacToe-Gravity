@@ -14,9 +14,12 @@ export default function HUD() {
   const setSelectedBot = useGameStore((state) => state.setSelectedBot)
   const botPlayer = useGameStore((state) => state.botPlayer)
   
+  const showGameOverModal = useGameStore((state) => state.showGameOverModal)
+  
   const gameOver = winner !== null || isDraw
   const isSinglePlayer = gameMode === GAME_MODES.SINGLE_PLAYER
   const isBotThinking = isSinglePlayer && currentPlayer === botPlayer && !gameOver
+  const showPlayAgainInHUD = gameOver && !showGameOverModal
   
   // Get turn label
   const getTurnLabel = () => {
@@ -52,9 +55,15 @@ export default function HUD() {
               <path d="M21 3v5h-5" />
             </svg>
           </button>
-          <button className="restart-btn" onClick={resetGame}>
-            Restart
-          </button>
+          {showPlayAgainInHUD ? (
+            <button className="play-again-hud-btn" onClick={resetGame}>
+              Play Again
+            </button>
+          ) : (
+            <button className="restart-btn" onClick={resetGame}>
+              Restart
+            </button>
+          )}
         </div>
       </header>
       
