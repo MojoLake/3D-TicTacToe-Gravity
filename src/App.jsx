@@ -5,10 +5,14 @@ import HUD from './components/HUD'
 import GameOverModal from './components/GameOverModal'
 import MovePanel from './components/MovePanel'
 import useGameStore from './store/gameStore'
+import useBotTurn from './hooks/useBotTurn'
 
 export default function App() {
   const { winner, isDraw } = useGameStore()
   const gameOver = winner !== null || isDraw
+  
+  // Hook to handle bot turns in single player mode
+  useBotTurn()
 
   return (
     <>

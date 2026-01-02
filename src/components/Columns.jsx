@@ -1,5 +1,5 @@
 import { useSpring, animated } from '@react-spring/three'
-import useGameStore from '../store/gameStore'
+import useGameStore, { GAME_MODES } from '../store/gameStore'
 import { GRID_SIZE } from '../game/winningLines'
 
 const PLAYER_COLORS = {
@@ -30,10 +30,15 @@ function Column({ x, z }) {
   const setIsHoveringBoard = useGameStore((state) => state.setIsHoveringBoard)
   const hoveredColumn = useGameStore((state) => state.hoveredColumn)
   const setHoveredColumn = useGameStore((state) => state.setHoveredColumn)
+  const gameMode = useGameStore((state) => state.gameMode)
+  const botPlayer = useGameStore((state) => state.botPlayer)
   
   const dropY = getDropY(x, z)
   const isFull = dropY === -1
   const gameOver = winner !== null || isDraw
+  
+  // Check if it's the bot's turn (human can't interact)
+  const isBotTurn = gameMode === GAME_MODES.SINGLE_PLAYER && currentPlayer === botPlayer
   
   // Check if this column is hovered (either directly or via 2D panel)
   const isHovered = hoveredColumn?.x === x && hoveredColumn?.z === z
@@ -53,14 +58,14 @@ function Column({ x, z }) {
   
   const handleClick = (e) => {
     e.stopPropagation()
-    if (!isFull && !gameOver) {
+    if (!isFull && !gameOver && !isBotTurn) {
       dropPiece(x, z)
     }
   }
   
   const handlePointerOver = (e) => {
     e.stopPropagation()
-    if (!gameOver) {
+    if (!gameOver && !isBotTurn) {
       setHoveredColumn({ x, z })
       setIsHoveringBoard(true)
       document.body.style.cursor = isFull ? 'not-allowed' : 'pointer'

@@ -6,6 +6,7 @@ import useGameStore from '../store/gameStore'
 
 export default function Scene() {
   const isHoveringBoard = useGameStore((state) => state.isHoveringBoard)
+  const autoRotateEnabled = useGameStore((state) => state.autoRotateEnabled)
   
   return (
     <>
@@ -41,14 +42,14 @@ export default function Scene() {
         />
       </mesh>
       
-      {/* Camera controls - disable auto-rotate when hovering */}
+      {/* Camera controls - disable auto-rotate when hovering or toggled off */}
       <OrbitControls 
         enablePan={false}
         minDistance={6}
         maxDistance={20}
         minPolarAngle={Math.PI / 6}
         maxPolarAngle={Math.PI / 2.2}
-        autoRotate={!isHoveringBoard}
+        autoRotate={autoRotateEnabled && !isHoveringBoard}
         autoRotateSpeed={0.3}
         enableDamping
         dampingFactor={0.05}

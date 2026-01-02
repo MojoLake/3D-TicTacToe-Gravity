@@ -1,5 +1,12 @@
 import { create } from 'zustand'
 import { WINNING_LINES, GRID_SIZE } from '../game/winningLines'
+import { DEFAULT_BOT_ID } from '../game/bots'
+
+// Game modes
+export const GAME_MODES = {
+  TWO_PLAYER: 'two-player',
+  SINGLE_PLAYER: 'single-player',
+}
 
 // Create empty 4x4x4 board
 function createEmptyBoard() {
@@ -59,13 +66,19 @@ function getDropPosition(board, x, z) {
 
 const useGameStore = create((set, get) => ({
   board: createEmptyBoard(),
-  currentPlayer: 0, // 0 = player 1 (cyan), 1 = player 2 (magenta)
+  currentPlayer: 0, // 0 = player 1, 1 = player 2/bot
   winner: null,
   winningLine: null,
   isDraw: false,
   hoveredColumn: null, // { x, z }
   lastMove: null, // { x, y, z, player }
   isHoveringBoard: false, // Track if user is hovering over the board
+  autoRotateEnabled: true, // Toggle for auto-rotation
+  
+  // Game mode settings
+  gameMode: GAME_MODES.TWO_PLAYER, // 'two-player' or 'single-player'
+  selectedBotId: DEFAULT_BOT_ID, // Which bot to use in single player
+  botPlayer: 1, // Which player the bot controls (0 or 1)
   
   // Set the hovered column for preview
   setHoveredColumn: (column) => {
@@ -75,6 +88,33 @@ const useGameStore = create((set, get) => ({
   // Set board hover state (for disabling auto-rotate)
   setIsHoveringBoard: (isHovering) => {
     set({ isHoveringBoard: isHovering })
+  },
+  
+  // Toggle auto-rotation on/off
+  toggleAutoRotate: () => {
+    set((state) => ({ autoRotateEnabled: !state.autoRotateEnabled }))
+  },
+  
+  // Set game mode
+  setGameMode: (mode) => {
+    set({ gameMode: mode })
+    get().resetGame()
+  },
+  
+  // Set which bot to use
+  setSelectedBot: (botId) => {
+    set({ selectedBotId: botId })
+  },
+  
+  // Check if it's currently the bot's turn
+  isBotTurn: () => {
+    const state = get()
+    return (
+      state.gameMode === GAME_MODES.SINGLE_PLAYER &&
+      state.currentPlayer === state.botPlayer &&
+      state.winner === null &&
+      !state.isDraw
+    )
   },
   
   // Get where a piece would land in a column
@@ -118,7 +158,7 @@ const useGameStore = create((set, get) => ({
     return true
   },
   
-  // Reset the game
+  // Reset the game (preserves game mode and bot settings)
   resetGame: () => {
     set({
       board: createEmptyBoard(),
@@ -128,7 +168,9 @@ const useGameStore = create((set, get) => ({
       isDraw: false,
       hoveredColumn: null,
       lastMove: null,
-      isHoveringBoard: false
+      isHoveringBoard: false,
+      autoRotateEnabled: true
+      // gameMode, selectedBotId, and botPlayer are preserved
     })
   }
 }))
