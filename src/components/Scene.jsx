@@ -7,15 +7,15 @@ export default function Scene() {
   return (
     <>
       {/* Lighting */}
-      <ambientLight intensity={0.4} />
+      <ambientLight intensity={0.6} />
       <directionalLight 
         position={[10, 15, 10]} 
-        intensity={1} 
+        intensity={1.5} 
         castShadow
         shadow-mapSize={[2048, 2048]}
       />
-      <pointLight position={[-5, 5, -5]} intensity={0.5} color="#00f5ff" />
-      <pointLight position={[5, 5, 5]} intensity={0.5} color="#ff2d95" />
+      <pointLight position={[-5, 5, -5]} intensity={0.7} color="#00f5ff" />
+      <pointLight position={[5, 5, 5]} intensity={0.7} color="#ff2d95" />
       
       {/* Environment for reflections */}
       <Environment preset="night" />
@@ -31,7 +31,7 @@ export default function Scene() {
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} receiveShadow>
         <planeGeometry args={[20, 20]} />
         <meshStandardMaterial 
-          color="#0a0a0f" 
+          color="#151520" 
           metalness={0.8}
           roughness={0.4}
         />

@@ -50,14 +50,14 @@ export default function Board() {
         <Line key={key} start={start} end={end} />
       ))}
       
-      {/* Level platforms (subtle) */}
+      {/* Level platforms */}
       {[0, 1, 2, 3, 4].map((y) => (
         <mesh key={`platform-${y}`} position={[2, y, 2]}>
           <boxGeometry args={[4, 0.02, 4]} />
           <meshStandardMaterial 
-            color="#1a1a2e"
+            color="#2a2a4e"
             transparent
-            opacity={y === 0 ? 0.8 : 0.15}
+            opacity={y === 0 ? 0.9 : 0.35}
             metalness={0.5}
             roughness={0.5}
           />
@@ -94,9 +94,9 @@ function Line({ start, end }) {
     <mesh position={[midX, midY, midZ]}>
       <boxGeometry args={size} />
       <meshStandardMaterial 
-        color="#2d2d44"
+        color="#5a5a7a"
         transparent
-        opacity={0.6}
+        opacity={0.9}
         metalness={0.3}
         roughness={0.7}
       />
