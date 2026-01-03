@@ -6,10 +6,11 @@ import { DEFAULT_BOT_ID } from '../game/bots'
 export const GAME_MODES = {
   TWO_PLAYER: 'two-player',
   SINGLE_PLAYER: 'single-player',
+  ONLINE: 'online',
 }
 
-// Create empty 4x4x4 board
-function createEmptyBoard() {
+// Create empty 4x4x4 board (exported for multiplayer room creation)
+export function createEmptyBoard() {
   const board = []
   for (let x = 0; x < GRID_SIZE; x++) {
     board[x] = []
@@ -77,9 +78,12 @@ const useGameStore = create((set, get) => ({
   showGameOverModal: true, // Whether to show the game over modal
   
   // Game mode settings
-  gameMode: GAME_MODES.TWO_PLAYER, // 'two-player' or 'single-player'
+  gameMode: GAME_MODES.TWO_PLAYER, // 'two-player', 'single-player', or 'online'
   selectedBotId: DEFAULT_BOT_ID, // Which bot to use in single player
   botPlayer: 1, // Which player the bot controls (0 or 1)
+  
+  // Online game callback (set by useOnlineGame hook)
+  onlineMoveCallback: null,
   
   // Set the hovered column for preview
   setHoveredColumn: (column) => {
@@ -116,6 +120,11 @@ const useGameStore = create((set, get) => ({
   setHumanPlayer: (player) => {
     set({ botPlayer: player === 0 ? 1 : 0 })
     get().resetGame()
+  },
+  
+  // Set online move callback
+  setOnlineMoveCallback: (callback) => {
+    set({ onlineMoveCallback: callback })
   },
   
   // Check if it's currently the bot's turn
@@ -158,16 +167,83 @@ const useGameStore = create((set, get) => ({
     // Check for draw
     const draw = !result && isBoardFull(newBoard)
     
+    const newCurrentPlayer = state.currentPlayer === 0 ? 1 : 0
+    
     set({
       board: newBoard,
-      currentPlayer: state.currentPlayer === 0 ? 1 : 0,
+      currentPlayer: newCurrentPlayer,
       winner: result?.winner ?? null,
       winningLine: result?.winningLine ?? null,
       isDraw: draw,
       lastMove: { x, y, z, player: state.currentPlayer }
     })
     
+    // If online mode, send move to server
+    if (state.gameMode === GAME_MODES.ONLINE && state.onlineMoveCallback) {
+      state.onlineMoveCallback({
+        board: newBoard,
+        currentPlayer: newCurrentPlayer,
+        winner: result?.winner ?? null,
+        winningLine: result?.winningLine ?? null,
+        isDraw: draw,
+      })
+    }
+    
     return true
+  },
+  
+  // Sync state from server (for online multiplayer)
+  syncFromServer: (serverState) => {
+    const state = get()
+    
+    // Only sync if we're in online mode
+    if (state.gameMode !== GAME_MODES.ONLINE) return
+    
+    // Calculate lastMove by comparing boards
+    let lastMove = null
+    if (serverState.board) {
+      const oldBoard = state.board
+      const newBoard = serverState.board
+      
+      // Find the new piece (if any)
+      for (let x = 0; x < GRID_SIZE; x++) {
+        for (let y = 0; y < GRID_SIZE; y++) {
+          for (let z = 0; z < GRID_SIZE; z++) {
+            if (oldBoard[x][y][z] === null && newBoard[x][y][z] !== null) {
+              lastMove = { x, y, z, player: newBoard[x][y][z] }
+              break
+            }
+          }
+          if (lastMove) break
+        }
+        if (lastMove) break
+      }
+    }
+    
+    set({
+      board: serverState.board ?? state.board,
+      currentPlayer: serverState.currentPlayer ?? state.currentPlayer,
+      winner: serverState.winner,
+      winningLine: serverState.winningLine ?? null,
+      isDraw: serverState.isDraw ?? false,
+      lastMove: lastMove ?? state.lastMove,
+      showGameOverModal: serverState.winner !== null || serverState.isDraw ? true : state.showGameOverModal,
+    })
+  },
+  
+  // Initialize game from server state (when joining a room)
+  initFromServer: (serverState) => {
+    set({
+      board: serverState.board,
+      currentPlayer: serverState.current_player,
+      winner: serverState.winner,
+      winningLine: serverState.winning_line,
+      isDraw: serverState.winner === -1,
+      lastMove: null,
+      hoveredColumn: null,
+      isHoveringBoard: false,
+      showGameOverModal: serverState.winner !== null,
+    })
   },
   
   // Reset the game (preserves game mode and bot settings)
@@ -189,4 +265,3 @@ const useGameStore = create((set, get) => ({
 }))
 
 export default useGameStore
-
