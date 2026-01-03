@@ -69,16 +69,11 @@ function Piece({ position, player, isWinning, isLastMove, animate, targetY }) {
   const baseIntensity = isLastMove ? 0.5 : 0.2;
   
   const { pulseScale, emissiveIntensity } = useSpring({
-    from: { 
-      pulseScale: 1,
-      emissiveIntensity: baseIntensity 
-    },
-    to: { 
-      pulseScale: shouldPulse ? 1.15 : 1,
-      emissiveIntensity: shouldPulse ? (isWinning ? 1.5 : 0.8) : baseIntensity 
-    },
+    pulseScale: shouldPulse ? 1.15 : 1,
+    emissiveIntensity: shouldPulse ? (isWinning ? 1.5 : 0.8) : baseIntensity,
     loop: shouldPulse ? { reverse: true } : false,
     config: { duration: isWinning ? 500 : 800 },
+    reset: false,
   });
 
   return (
