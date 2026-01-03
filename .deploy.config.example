@@ -1,0 +1,6 @@
+# Deployment configuration
+# Copy this file to .deploy.config and fill in your values
+
+HOST=user@your-server.com
+APP_DIR=/var/www/tictactoe-3d
+
