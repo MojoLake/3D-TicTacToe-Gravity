@@ -99,6 +99,7 @@ function Column({ x, z }) {
           transparent
           opacity={opacity}
           depthWrite={false}
+          depthTest={false}
         />
       </animated.mesh>
       
