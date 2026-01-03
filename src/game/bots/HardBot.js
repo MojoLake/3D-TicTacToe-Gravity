@@ -25,7 +25,7 @@ const SEARCH_DEPTH = 5
 
 export const HardBot = {
   id: 'hard',
-  name: 'Hard Bot',
+  name: 'Hard',
   description: 'Thinks several moves ahead. A serious challenge.',
   
   getMove: (gameState) => {

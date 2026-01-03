@@ -31,7 +31,7 @@ const TT_UPPER = 2 // Beta cutoff (at most this value)
 
 export const ExpertBot = {
   id: 'expert',
-  name: 'Expert Bot',
+  name: 'Expert',
   description: 'Thinks deeply (up to 5s). Nearly unbeatable.',
   
   getMove: (gameState) => {

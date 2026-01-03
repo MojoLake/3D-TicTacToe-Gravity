@@ -12,7 +12,7 @@ import { WINNING_LINES, GRID_SIZE } from '../winningLines'
 
 export const GreedyBot = {
   id: 'greedy',
-  name: 'Greedy Bot',
+  name: 'Greedy',
   description: 'Looks one move ahead. A reasonable challenge.',
   
   getMove: (gameState) => {
