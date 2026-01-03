@@ -121,8 +121,8 @@ function Column({ x, z }) {
         </animated.mesh>
       )}
       
-      {/* Bottom indicator */}
-      <mesh position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+      {/* Bottom indicator - raised above platform to avoid z-fighting */}
+      <mesh position={[0, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={2}>
         <circleGeometry args={[0.4, 32]} />
         <meshStandardMaterial
           color={isHovered && !isFull && !gameOver ? PLAYER_COLORS[currentPlayer] : '#a08060'}
@@ -130,6 +130,9 @@ function Column({ x, z }) {
           opacity={0.5}
           emissive={isHovered && !isFull && !gameOver ? PLAYER_COLORS[currentPlayer] : '#000000'}
           emissiveIntensity={isHovered ? 0.3 : 0}
+          polygonOffset
+          polygonOffsetFactor={-1}
+          polygonOffsetUnits={-1}
         />
       </mesh>
     </group>

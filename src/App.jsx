@@ -17,8 +17,8 @@ export default function App() {
   return (
     <>
       <Canvas
-        camera={{ position: [8, 6, 8], fov: 50 }}
-        gl={{ antialias: true }}
+        camera={{ position: [8, 6, 8], fov: 50, near: 0.1, far: 100 }}
+        gl={{ antialias: true, logarithmicDepthBuffer: true }}
         dpr={[1, 2]}
       >
         <Suspense fallback={null}>

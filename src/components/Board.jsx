@@ -50,9 +50,9 @@ export default function Board() {
         <Line key={key} start={start} end={end} />
       ))}
       
-      {/* Level platforms */}
+      {/* Level platforms - use polygonOffset to prevent z-fighting with grid lines */}
       {[0, 1, 2, 3, 4].map((y) => (
-        <mesh key={`platform-${y}`} position={[2, y, 2]}>
+        <mesh key={`platform-${y}`} position={[2, y - 0.015, 2]} renderOrder={-1}>
           <boxGeometry args={[4, 0.02, 4]} />
           <meshStandardMaterial 
             color="#c4a574"
@@ -60,6 +60,9 @@ export default function Board() {
             opacity={y === 0 ? 0.95 : 0.4}
             metalness={0.1}
             roughness={0.8}
+            polygonOffset
+            polygonOffsetFactor={1}
+            polygonOffsetUnits={1}
           />
         </mesh>
       ))}
@@ -91,7 +94,7 @@ function Line({ start, end }) {
   }
   
   return (
-    <mesh position={[midX, midY, midZ]}>
+    <mesh position={[midX, midY, midZ]} renderOrder={1}>
       <boxGeometry args={size} />
       <meshStandardMaterial 
         color="#8b7355"
@@ -99,6 +102,7 @@ function Line({ start, end }) {
         opacity={0.95}
         metalness={0.1}
         roughness={0.8}
+        depthWrite={false}
       />
     </mesh>
   )
