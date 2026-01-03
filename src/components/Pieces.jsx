@@ -1,38 +1,41 @@
-import { useRef } from 'react'
-import { useSpring, animated } from '@react-spring/three'
-import useGameStore from '../store/gameStore'
-import { GRID_SIZE } from '../game/winningLines'
+import { useRef } from "react";
+import { useSpring, animated } from "@react-spring/three";
+import useGameStore from "../store/gameStore";
+import { GRID_SIZE } from "../game/winningLines";
 
 const PLAYER_COLORS = {
-  0: '#deb887', // Light maple wood
-  1: '#5c4033'  // Dark walnut wood
-}
+  0: "#00f5ff", // Cyan
+  1: "#ff2d95", // Magenta
+};
 
 const PLAYER_EMISSIVE = {
-  0: '#8b7355',
-  1: '#3d2817'
-}
+  0: "#00a5aa",
+  1: "#aa1d65",
+};
 
 export default function Pieces() {
-  const board = useGameStore((state) => state.board)
-  const winningLine = useGameStore((state) => state.winningLine)
-  const lastMove = useGameStore((state) => state.lastMove)
-  
-  const pieces = []
-  
+  const board = useGameStore((state) => state.board);
+  const winningLine = useGameStore((state) => state.winningLine);
+  const lastMove = useGameStore((state) => state.lastMove);
+
+  const pieces = [];
+
   for (let x = 0; x < GRID_SIZE; x++) {
     for (let y = 0; y < GRID_SIZE; y++) {
       for (let z = 0; z < GRID_SIZE; z++) {
-        const player = board[x][y][z]
+        const player = board[x][y][z];
         if (player !== null) {
           const isWinning = winningLine?.some(
             ([wx, wy, wz]) => wx === x && wy === y && wz === z
-          )
-          const isLastMove = lastMove && 
-            lastMove.x === x && lastMove.y === y && lastMove.z === z
-          
+          );
+          const isLastMove =
+            lastMove &&
+            lastMove.x === x &&
+            lastMove.y === y &&
+            lastMove.z === z;
+
           pieces.push(
-            <Piece 
+            <Piece
               key={`${x}-${y}-${z}`}
               position={[x + 0.5, y + 0.5, z + 0.5]}
               player={player}
@@ -40,45 +43,45 @@ export default function Pieces() {
               animate={isLastMove}
               targetY={y + 0.5}
             />
-          )
+          );
         }
       }
     }
   }
-  
-  return <group>{pieces}</group>
+
+  return <group>{pieces}</group>;
 }
 
 function Piece({ position, player, isWinning, animate, targetY }) {
-  const meshRef = useRef()
-  
+  const meshRef = useRef();
+
   // Animate piece dropping from top
   const { posY, scale } = useSpring({
-    from: { 
+    from: {
       posY: animate ? GRID_SIZE + 1 : targetY,
-      scale: animate ? 0 : 1
+      scale: animate ? 0 : 1,
     },
-    to: { 
+    to: {
       posY: targetY,
-      scale: 1
+      scale: 1,
     },
-    config: { 
+    config: {
       mass: 1,
       tension: 200,
-      friction: 20
-    }
-  })
-  
+      friction: 20,
+    },
+  });
+
   // Winning animation - pulsing glow
   const { emissiveIntensity } = useSpring({
     from: { emissiveIntensity: isWinning ? 0.5 : 0.2 },
     to: { emissiveIntensity: isWinning ? 1.5 : 0.2 },
     loop: isWinning ? { reverse: true } : false,
-    config: { duration: 500 }
-  })
-  
+    config: { duration: 500 },
+  });
+
   return (
-    <animated.mesh 
+    <animated.mesh
       ref={meshRef}
       position-x={position[0]}
       position-y={posY}
@@ -91,11 +94,10 @@ function Piece({ position, player, isWinning, animate, targetY }) {
         color={PLAYER_COLORS[player]}
         emissive={PLAYER_EMISSIVE[player]}
         emissiveIntensity={emissiveIntensity}
-        metalness={0.1}
-        roughness={0.7}
-        envMapIntensity={0.4}
+        metalness={0.3}
+        roughness={0.2}
+        envMapIntensity={0.8}
       />
     </animated.mesh>
-  )
+  );
 }
-
