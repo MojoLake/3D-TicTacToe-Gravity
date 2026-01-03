@@ -70,7 +70,7 @@ export default function MovePanel() {
       cells.push(
         <button
           key={`cell-${x}-${z}`}
-          className={`move-panel-cell player-${currentPlayer} ${isFull ? 'full' : ''} ${isDisabled ? 'disabled' : ''} ${isHovered ? 'hovered' : ''} ${isWinning ? 'winning' : ''} ${isLastMove && !isWinning ? `last-move last-move-player-${lastMovePlayer}` : ''}`}
+          className={`move-panel-cell player-${currentPlayer} ${isFull ? 'full' : ''} ${isDisabled ? 'disabled' : ''} ${isHovered ? 'hovered' : ''} ${isWinning ? 'winning' : ''} ${isLastMove && !isWinning ? `last-move-player-${lastMovePlayer}` : ''}`}
           onClick={() => handleCellClick(x, z)}
           onMouseEnter={() => handleCellHover(x, z)}
           onMouseLeave={handleCellLeave}
