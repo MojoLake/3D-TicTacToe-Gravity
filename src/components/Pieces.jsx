@@ -40,6 +40,7 @@ export default function Pieces() {
               position={[x + 0.5, y + 0.5, z + 0.5]}
               player={player}
               isWinning={isWinning}
+              isLastMove={isLastMove}
               animate={isLastMove}
               targetY={y + 0.5}
             />
@@ -52,7 +53,7 @@ export default function Pieces() {
   return <group>{pieces}</group>;
 }
 
-function Piece({ position, player, isWinning, animate, targetY }) {
+function Piece({ position, player, isWinning, isLastMove, animate, targetY }) {
   const meshRef = useRef();
 
   // Animate piece dropping from top
@@ -72,32 +73,65 @@ function Piece({ position, player, isWinning, animate, targetY }) {
     },
   });
 
+  // Determine emissive intensity based on state
+  // Winning: pulsing glow, Last move: subtle highlight, Normal: base glow
+  const baseIntensity = isLastMove ? 0.6 : 0.2;
+  
   // Winning animation - pulsing glow
   const { emissiveIntensity } = useSpring({
-    from: { emissiveIntensity: isWinning ? 0.5 : 0.2 },
-    to: { emissiveIntensity: isWinning ? 1.5 : 0.2 },
+    from: { emissiveIntensity: isWinning ? 0.5 : baseIntensity },
+    to: { emissiveIntensity: isWinning ? 1.5 : baseIntensity },
     loop: isWinning ? { reverse: true } : false,
     config: { duration: 500 },
   });
 
+  // Last move ring scale animation (subtle pulse)
+  const { ringScale, ringOpacity } = useSpring({
+    from: { ringScale: 0.8, ringOpacity: 0 },
+    to: { ringScale: isLastMove && !isWinning ? 1.2 : 0.8, ringOpacity: isLastMove && !isWinning ? 0.8 : 0 },
+    loop: isLastMove && !isWinning ? { reverse: true } : false,
+    config: { duration: 800 },
+  });
+
   return (
-    <animated.mesh
-      ref={meshRef}
-      position-x={position[0]}
-      position-y={posY}
-      position-z={position[2]}
-      scale={scale}
-      castShadow
-    >
-      <sphereGeometry args={[0.35, 32, 32]} />
-      <animated.meshStandardMaterial
-        color={PLAYER_COLORS[player]}
-        emissive={PLAYER_EMISSIVE[player]}
-        emissiveIntensity={emissiveIntensity}
-        metalness={0.3}
-        roughness={0.2}
-        envMapIntensity={0.8}
-      />
-    </animated.mesh>
+    <group>
+      <animated.mesh
+        ref={meshRef}
+        position-x={position[0]}
+        position-y={posY}
+        position-z={position[2]}
+        scale={scale}
+        castShadow
+      >
+        <sphereGeometry args={[0.35, 32, 32]} />
+        <animated.meshStandardMaterial
+          color={PLAYER_COLORS[player]}
+          emissive={PLAYER_EMISSIVE[player]}
+          emissiveIntensity={emissiveIntensity}
+          metalness={0.3}
+          roughness={0.2}
+          envMapIntensity={0.8}
+        />
+      </animated.mesh>
+      
+      {/* Last move indicator ring */}
+      {isLastMove && !isWinning && (
+        <animated.mesh
+          position-x={position[0]}
+          position-y={posY}
+          position-z={position[2]}
+          scale={ringScale}
+          rotation={[Math.PI / 2, 0, 0]}
+        >
+          <torusGeometry args={[0.45, 0.03, 8, 32]} />
+          <animated.meshBasicMaterial
+            color={player === 0 ? "#ffd700" : "#ffa500"}
+            transparent
+            opacity={ringOpacity}
+            depthWrite={false}
+          />
+        </animated.mesh>
+      )}
+    </group>
   );
 }
