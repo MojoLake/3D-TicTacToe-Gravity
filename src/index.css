@@ -659,3 +659,398 @@ canvas {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
 }
+
+/* ===============================================
+   MOBILE RESPONSIVE STYLES
+   =============================================== */
+
+/* Tablet and smaller */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem 1.25rem;
+  }
+  
+  .title {
+    font-size: 1.1rem;
+  }
+  
+  .game-settings {
+    top: 4rem;
+  }
+  
+  .mode-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+  }
+  
+  .mode-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .single-player-settings {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .instructions {
+    display: none;
+  }
+  
+  .move-panel {
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.75rem;
+  }
+  
+  .move-panel-cell {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .fill-indicator {
+    height: 28px;
+  }
+  
+  .fill-dot {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+/* Phones - landscape and portrait */
+@media (max-width: 600px) {
+  .header {
+    padding: 0.75rem 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .title {
+    font-size: 0.95rem;
+    order: 1;
+  }
+  
+  .turn-indicator {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    padding: 0.35rem 0.75rem;
+    margin-top: 0.25rem;
+  }
+  
+  .turn-indicator .piece-preview {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .turn-indicator span {
+    font-size: 0.8rem;
+  }
+  
+  .header-buttons {
+    order: 2;
+  }
+  
+  .restart-btn,
+  .play-again-hud-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+  }
+  
+  .rotate-toggle-btn {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .rotate-toggle-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .game-settings {
+    top: auto;
+    bottom: 1rem;
+    left: 1rem;
+    transform: none;
+    align-items: flex-start;
+  }
+  
+  .mode-selector {
+    padding: 0.2rem;
+    border-radius: 0.5rem;
+  }
+  
+  .mode-btn {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.7rem;
+    gap: 0.35rem;
+  }
+  
+  .mode-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .bot-selector,
+  .color-selector {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+  }
+  
+  .bot-selector label,
+  .color-selector label {
+    font-size: 0.65rem;
+  }
+  
+  .bot-selector select {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.7rem;
+  }
+  
+  .color-btn {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .color-piece {
+    width: 14px;
+    height: 14px;
+  }
+  
+  /* Move panel - positioned bottom-right, more compact */
+  .move-panel {
+    bottom: 0.75rem;
+    right: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 0.75rem;
+    border-width: 1px;
+  }
+  
+  .move-panel-header {
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.35rem;
+  }
+  
+  .move-panel-header span {
+    font-size: 0.65rem;
+  }
+  
+  .move-panel-grid {
+    gap: 3px;
+  }
+  
+  .move-panel-cell {
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+  }
+  
+  .fill-indicator {
+    height: 24px;
+    gap: 1px;
+  }
+  
+  .fill-dot {
+    width: 5px;
+    height: 5px;
+  }
+  
+  .move-panel-labels {
+    margin-top: 0.35rem;
+    height: 0.75rem;
+  }
+  
+  .axis-label {
+    font-size: 0.55rem;
+  }
+  
+  .axis-label.vertical {
+    right: -0.75rem;
+    top: -4rem;
+  }
+}
+
+/* Very narrow phones (< 400px width) */
+@media (max-width: 400px) {
+  .header {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .title {
+    font-size: 0.85rem;
+  }
+  
+  .turn-indicator {
+    padding: 0.3rem 0.6rem;
+    gap: 0.5rem;
+  }
+  
+  .turn-indicator .piece-preview {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .turn-indicator span {
+    font-size: 0.75rem;
+  }
+  
+  .restart-btn,
+  .play-again-hud-btn {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.7rem;
+  }
+  
+  .rotate-toggle-btn {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .rotate-toggle-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .game-settings {
+    bottom: 0.5rem;
+    left: 0.5rem;
+    gap: 0.5rem;
+  }
+  
+  .mode-btn {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.65rem;
+  }
+  
+  /* Compact move panel for narrow screens */
+  .move-panel {
+    bottom: 0.5rem;
+    right: 0.5rem;
+    padding: 0.4rem;
+    border-radius: 0.5rem;
+  }
+  
+  .move-panel-header {
+    margin-bottom: 0.35rem;
+    padding-bottom: 0.25rem;
+  }
+  
+  .move-panel-header span {
+    font-size: 0.6rem;
+  }
+  
+  .move-panel-grid {
+    gap: 2px;
+  }
+  
+  .move-panel-cell {
+    width: 28px;
+    height: 28px;
+    border-radius: 3px;
+  }
+  
+  .fill-indicator {
+    height: 18px;
+    gap: 1px;
+  }
+  
+  .fill-dot {
+    width: 4px;
+    height: 4px;
+  }
+  
+  .move-panel-labels {
+    display: none;
+  }
+}
+
+/* Landscape phones - push controls to sides */
+@media (max-height: 500px) and (orientation: landscape) {
+  .header {
+    padding: 0.5rem 1rem;
+    background: linear-gradient(to bottom, rgba(245, 240, 230, 0.98), rgba(245, 240, 230, 0.7));
+  }
+  
+  .turn-indicator {
+    order: 2;
+    width: auto;
+    margin-top: 0;
+  }
+  
+  .game-settings {
+    position: absolute;
+    top: 50%;
+    left: 0.75rem;
+    bottom: auto;
+    transform: translateY(-50%);
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .mode-selector {
+    flex-direction: column;
+    padding: 0.2rem;
+  }
+  
+  .mode-btn {
+    justify-content: flex-start;
+  }
+  
+  .single-player-settings {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  
+  .move-panel {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    bottom: auto;
+    transform: translateY(-50%);
+  }
+  
+  .move-panel-cell {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .fill-indicator {
+    height: 22px;
+  }
+  
+  .fill-dot {
+    width: 4px;
+    height: 4px;
+  }
+}
+
+/* Modal responsive adjustments */
+@media (max-width: 500px) {
+  .modal {
+    padding: 2rem 1.5rem;
+    border-radius: 1rem;
+    margin: 1rem;
+    max-width: calc(100vw - 2rem);
+  }
+  
+  .modal h2 {
+    font-size: 1.75rem;
+  }
+  
+  .modal p {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .modal-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .modal .play-again-btn,
+  .modal .view-board-btn {
+    padding: 0.75rem 1.5rem;
+    width: 100%;
+    font-size: 0.9rem;
+  }
+}
