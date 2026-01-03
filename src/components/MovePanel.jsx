@@ -1,4 +1,5 @@
 import useGameStore, { GAME_MODES } from '../store/gameStore'
+import useMultiplayerStore from '../store/multiplayerStore'
 import { GRID_SIZE } from '../game/winningLines'
 
 export default function MovePanel() {
@@ -14,8 +15,20 @@ export default function MovePanel() {
   const botPlayer = useGameStore((state) => state.botPlayer)
   const lastMove = useGameStore((state) => state.lastMove)
   
+  // Online multiplayer state
+  const playerSlot = useMultiplayerStore((state) => state.playerSlot)
+  const opponentJoined = useMultiplayerStore((state) => state.opponentJoined)
+  
   const gameOver = winner !== null || isDraw
   const isBotTurn = gameMode === GAME_MODES.SINGLE_PLAYER && currentPlayer === botPlayer
+  
+  // Online turn restrictions
+  const isOnline = gameMode === GAME_MODES.ONLINE
+  const isOpponentTurn = isOnline && opponentJoined && playerSlot !== currentPlayer
+  const isWaitingForOpponent = isOnline && !opponentJoined
+  
+  // Can't interact if it's not our turn
+  const cantInteract = isBotTurn || isOpponentTurn || isWaitingForOpponent
   
   // Check if a column (x, z) contains any piece from the winning line
   const isWinningColumn = (x, z) => {
@@ -40,13 +53,13 @@ export default function MovePanel() {
   }
 
   const handleCellClick = (x, z) => {
-    if (!gameOver && !isBotTurn) {
+    if (!gameOver && !cantInteract) {
       dropPiece(x, z)
     }
   }
 
   const handleCellHover = (x, z) => {
-    if (!gameOver && !isBotTurn) {
+    if (!gameOver && !cantInteract) {
       setHoveredColumn({ x, z })
     }
   }
@@ -63,7 +76,7 @@ export default function MovePanel() {
       const isFull = fillLevel >= GRID_SIZE
       const isHovered = hoveredColumn?.x === x && hoveredColumn?.z === z
       
-      const isDisabled = isFull || gameOver || isBotTurn
+      const isDisabled = isFull || gameOver || cantInteract
       const isWinning = isWinningColumn(x, z)
       const isLastMove = isLastMoveColumn(x, z)
       const lastMovePlayer = lastMove?.player
@@ -105,4 +118,3 @@ export default function MovePanel() {
     </div>
   )
 }
-

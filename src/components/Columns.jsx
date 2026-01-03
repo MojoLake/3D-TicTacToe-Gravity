@@ -1,5 +1,6 @@
 import { useSpring, animated } from '@react-spring/three'
 import useGameStore, { GAME_MODES } from '../store/gameStore'
+import useMultiplayerStore from '../store/multiplayerStore'
 import { GRID_SIZE } from '../game/winningLines'
 
 const PLAYER_COLORS = {
@@ -35,6 +36,10 @@ function Column({ x, z }) {
   const gameMode = useGameStore((state) => state.gameMode)
   const botPlayer = useGameStore((state) => state.botPlayer)
   
+  // Online multiplayer state
+  const playerSlot = useMultiplayerStore((state) => state.playerSlot)
+  const opponentJoined = useMultiplayerStore((state) => state.opponentJoined)
+  
   const dropY = getDropY(x, z)
   const isFull = dropY === -1
   const gameOver = winner !== null || isDraw
@@ -42,32 +47,40 @@ function Column({ x, z }) {
   // Check if it's the bot's turn (human can't interact)
   const isBotTurn = gameMode === GAME_MODES.SINGLE_PLAYER && currentPlayer === botPlayer
   
+  // Check if it's opponent's turn in online mode
+  const isOnline = gameMode === GAME_MODES.ONLINE
+  const isOpponentTurn = isOnline && opponentJoined && playerSlot !== currentPlayer
+  const isWaitingForOpponent = isOnline && !opponentJoined
+  
+  // Can't interact if it's not our turn
+  const cantInteract = isBotTurn || isOpponentTurn || isWaitingForOpponent
+  
   // Check if this column is hovered (either directly or via 2D panel)
   const isHovered = hoveredColumn?.x === x && hoveredColumn?.z === z
   
   // Hover animation for the column highlight
   const { opacity } = useSpring({
-    opacity: isHovered && !isFull && !gameOver ? 0.3 : 0,
+    opacity: isHovered && !isFull && !gameOver && !cantInteract ? 0.3 : 0,
     config: { tension: 300, friction: 20 }
   })
   
   // Ghost piece animation
   const { ghostOpacity, ghostScale } = useSpring({
-    ghostOpacity: isHovered && !isFull && !gameOver ? 0.6 : 0,
-    ghostScale: isHovered && !isFull && !gameOver ? 1 : 0,
+    ghostOpacity: isHovered && !isFull && !gameOver && !cantInteract ? 0.6 : 0,
+    ghostScale: isHovered && !isFull && !gameOver && !cantInteract ? 1 : 0,
     config: { tension: 400, friction: 25 }
   })
   
   const handleClick = (e) => {
     e.stopPropagation()
-    if (!isFull && !gameOver && !isBotTurn) {
+    if (!isFull && !gameOver && !cantInteract) {
       dropPiece(x, z)
     }
   }
   
   const handlePointerOver = (e) => {
     e.stopPropagation()
-    if (!gameOver && !isBotTurn) {
+    if (!gameOver && !cantInteract) {
       setHoveredColumn({ x, z })
       setIsHoveringBoard(true)
       document.body.style.cursor = isFull ? 'not-allowed' : 'pointer'
@@ -128,10 +141,10 @@ function Column({ x, z }) {
       <mesh position={[0, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={2}>
         <circleGeometry args={[0.4, 32]} />
         <meshStandardMaterial
-          color={isHovered && !isFull && !gameOver ? PLAYER_COLORS[currentPlayer] : '#a08060'}
+          color={isHovered && !isFull && !gameOver && !cantInteract ? PLAYER_COLORS[currentPlayer] : '#a08060'}
           transparent
           opacity={0.5}
-          emissive={isHovered && !isFull && !gameOver ? PLAYER_COLORS[currentPlayer] : '#000000'}
+          emissive={isHovered && !isFull && !gameOver && !cantInteract ? PLAYER_COLORS[currentPlayer] : '#000000'}
           emissiveIntensity={isHovered ? 0.3 : 0}
           polygonOffset
           polygonOffsetFactor={-1}
@@ -141,4 +154,3 @@ function Column({ x, z }) {
     </group>
   )
 }
-

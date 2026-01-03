@@ -4,15 +4,27 @@ import Scene from './components/Scene'
 import HUD from './components/HUD'
 import GameOverModal from './components/GameOverModal'
 import MovePanel from './components/MovePanel'
-import useGameStore from './store/gameStore'
+import OnlineLobby from './components/OnlineLobby'
+import useGameStore, { GAME_MODES } from './store/gameStore'
+import useMultiplayerStore from './store/multiplayerStore'
 import useBotTurn from './hooks/useBotTurn'
+import useOnlineGame from './hooks/useOnlineGame'
 
 export default function App() {
-  const { winner, isDraw, showGameOverModal } = useGameStore()
+  const { winner, isDraw, showGameOverModal, gameMode } = useGameStore()
+  const { lobbyState, opponentJoined } = useMultiplayerStore()
+  
   const gameOver = winner !== null || isDraw
   
   // Hook to handle bot turns in single player mode
   useBotTurn()
+  
+  // Hook to handle online game synchronization
+  useOnlineGame()
+  
+  // Check if we should show the online lobby
+  const isOnline = gameMode === GAME_MODES.ONLINE
+  const showLobby = isOnline && !opponentJoined && lobbyState !== 'playing'
 
   return (
     <>
@@ -29,9 +41,9 @@ export default function App() {
       <div className="ui-overlay">
         <HUD />
         <MovePanel />
+        {showLobby && <OnlineLobby />}
         {gameOver && showGameOverModal && <GameOverModal />}
       </div>
     </>
   )
 }
-
