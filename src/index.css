@@ -607,6 +607,32 @@ canvas {
   cursor: default;
 }
 
+/* Winning cells pulsate */
+.move-panel-cell.winning {
+  animation: winPulse 1s ease-in-out infinite;
+}
+
+.move-panel-cell.winning.player-0 {
+  box-shadow: 0 0 12px var(--color-player1-glow);
+  border-color: var(--color-player1);
+}
+
+.move-panel-cell.winning.player-1 {
+  box-shadow: 0 0 12px var(--color-player2-glow);
+  border-color: var(--color-player2);
+}
+
+@keyframes winPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.85;
+  }
+}
+
 /* Fill indicator - shows stacked pieces */
 .fill-indicator {
   display: flex;

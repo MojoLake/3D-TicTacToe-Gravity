@@ -6,6 +6,7 @@ export default function MovePanel() {
   const currentPlayer = useGameStore((state) => state.currentPlayer)
   const dropPiece = useGameStore((state) => state.dropPiece)
   const winner = useGameStore((state) => state.winner)
+  const winningLine = useGameStore((state) => state.winningLine)
   const isDraw = useGameStore((state) => state.isDraw)
   const hoveredColumn = useGameStore((state) => state.hoveredColumn)
   const setHoveredColumn = useGameStore((state) => state.setHoveredColumn)
@@ -14,6 +15,12 @@ export default function MovePanel() {
   
   const gameOver = winner !== null || isDraw
   const isBotTurn = gameMode === GAME_MODES.SINGLE_PLAYER && currentPlayer === botPlayer
+  
+  // Check if a column (x, z) contains any piece from the winning line
+  const isWinningColumn = (x, z) => {
+    if (!winningLine) return false
+    return winningLine.some(([wx, _, wz]) => wx === x && wz === z)
+  }
 
   // Get fill level for each column (how many pieces stacked)
   const getFillLevel = (x, z) => {
@@ -50,10 +57,11 @@ export default function MovePanel() {
       const isHovered = hoveredColumn?.x === x && hoveredColumn?.z === z
       
       const isDisabled = isFull || gameOver || isBotTurn
+      const isWinning = isWinningColumn(x, z)
       cells.push(
         <button
           key={`cell-${x}-${z}`}
-          className={`move-panel-cell player-${currentPlayer} ${isFull ? 'full' : ''} ${isDisabled ? 'disabled' : ''} ${isHovered ? 'hovered' : ''}`}
+          className={`move-panel-cell player-${currentPlayer} ${isFull ? 'full' : ''} ${isDisabled ? 'disabled' : ''} ${isHovered ? 'hovered' : ''} ${isWinning ? 'winning' : ''}`}
           onClick={() => handleCellClick(x, z)}
           onMouseEnter={() => handleCellHover(x, z)}
           onMouseLeave={handleCellLeave}
