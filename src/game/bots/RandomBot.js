@@ -5,7 +5,7 @@
 
 export const RandomBot = {
   id: 'random',
-  name: 'Random Bot',
+  name: 'Easy',
   description: 'Makes random moves. Good for beginners.',
   
   getMove: (gameState) => {

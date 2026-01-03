@@ -113,7 +113,7 @@ export const BOTS = {
 }
 
 // Default bot
-export const DEFAULT_BOT_ID = RandomBot.id
+export const DEFAULT_BOT_ID = HardBot.id
 
 // Export individual bots for direct import if needed
 export { RandomBot, GreedyBot, HardBot, ExpertBot }
