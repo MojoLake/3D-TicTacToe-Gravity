@@ -88,7 +88,7 @@ export default function useBotTurn() {
       worker.addEventListener('message', handleMessage)
       
       // Small delay so player can see their move first
-      setTimeout(() => {
+      const delayTimeoutId = setTimeout(() => {
         worker.postMessage({
           type: 'CALCULATE_MOVE',
           payload: {
@@ -100,7 +100,9 @@ export default function useBotTurn() {
       }, 300)
       
       return () => {
+        clearTimeout(delayTimeoutId)
         worker.removeEventListener('message', handleMessage)
+        isProcessingRef.current = false
       }
     } else {
       // Run synchronously for simple bots (fast enough)
