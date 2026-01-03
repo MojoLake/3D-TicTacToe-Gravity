@@ -1,15 +1,58 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#00ffff;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#ff00ff;stop-opacity:1" />
+    <!-- Wood base gradient -->
+    <linearGradient id="woodBase" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B5A2B"/>
+      <stop offset="25%" style="stop-color:#A0522D"/>
+      <stop offset="50%" style="stop-color:#CD853F"/>
+      <stop offset="75%" style="stop-color:#A0522D"/>
+      <stop offset="100%" style="stop-color:#8B4513"/>
     </linearGradient>
+    <!-- Darker wood for grid lines -->
+    <linearGradient id="woodDark" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#5D3A1A"/>
+      <stop offset="50%" style="stop-color:#6B4423"/>
+      <stop offset="100%" style="stop-color:#4A2C14"/>
+    </linearGradient>
+    <!-- Wood grain pattern -->
+    <pattern id="grain" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="#CD853F"/>
+      <path d="M0 2 Q2 1 4 2" stroke="#A0522D" stroke-width="0.5" fill="none" opacity="0.6"/>
+      <path d="M0 3.5 Q2 3 4 3.5" stroke="#8B4513" stroke-width="0.3" fill="none" opacity="0.4"/>
+    </pattern>
+    <!-- Combined wood texture -->
+    <filter id="woodTexture">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04 0.15" numOctaves="3" result="noise"/>
+      <feColorMatrix type="saturate" values="0" result="mono"/>
+      <feBlend in="SourceGraphic" in2="mono" mode="multiply"/>
+    </filter>
   </defs>
-  <rect x="10" y="10" width="80" height="80" rx="10" fill="none" stroke="url(#grad)" stroke-width="6"/>
-  <line x1="36" y1="10" x2="36" y2="90" stroke="url(#grad)" stroke-width="3"/>
-  <line x1="64" y1="10" x2="64" y2="90" stroke="url(#grad)" stroke-width="3"/>
-  <line x1="10" y1="36" x2="90" y2="36" stroke="url(#grad)" stroke-width="3"/>
-  <line x1="10" y1="64" x2="90" y2="64" stroke="url(#grad)" stroke-width="3"/>
-  <circle cx="50" cy="50" r="12" fill="#00ffff"/>
+  
+  <!-- Board background -->
+  <rect x="5" y="5" width="90" height="90" rx="8" fill="url(#woodBase)"/>
+  <rect x="5" y="5" width="90" height="90" rx="8" fill="url(#grain)" opacity="0.3"/>
+  
+  <!-- Carved grid lines - vertical -->
+  <rect x="33" y="8" width="5" height="84" rx="1" fill="url(#woodDark)"/>
+  <rect x="34" y="9" width="2" height="82" fill="#3D2410" opacity="0.5"/>
+  
+  <rect x="62" y="8" width="5" height="84" rx="1" fill="url(#woodDark)"/>
+  <rect x="63" y="9" width="2" height="82" fill="#3D2410" opacity="0.5"/>
+  
+  <!-- Carved grid lines - horizontal -->
+  <rect x="8" y="33" width="84" height="5" rx="1" fill="url(#woodDark)"/>
+  <rect x="9" y="34" width="82" height="2" fill="#3D2410" opacity="0.5"/>
+  
+  <rect x="8" y="62" width="84" height="5" rx="1" fill="url(#woodDark)"/>
+  <rect x="9" y="63" width="82" height="2" fill="#3D2410" opacity="0.5"/>
+  
+  <!-- Wood edge highlight -->
+  <rect x="5" y="5" width="90" height="90" rx="8" fill="none" stroke="#D4A574" stroke-width="1" opacity="0.5"/>
+  <rect x="6" y="6" width="88" height="88" rx="7" fill="none" stroke="#4A2C14" stroke-width="1.5"/>
+  
+  <!-- Subtle game piece hint in center (wooden peg) -->
+  <circle cx="50" cy="50" r="9" fill="#DEB887"/>
+  <circle cx="50" cy="50" r="7" fill="#D2B48C"/>
+  <circle cx="48" cy="48" r="3" fill="#F5DEB3" opacity="0.4"/>
+  <circle cx="50" cy="50" r="9" fill="none" stroke="#8B4513" stroke-width="1.5"/>
 </svg>
-
