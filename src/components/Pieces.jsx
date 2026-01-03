@@ -54,15 +54,9 @@ export default function Pieces() {
 
 function Piece({ position, player, isWinning, isLastMove, animate, targetY }) {
   // Animate piece dropping from top
-  const { posY, dropScale } = useSpring({
-    from: {
-      posY: animate ? GRID_SIZE + 1 : targetY,
-      dropScale: animate ? 0 : 1,
-    },
-    to: {
-      posY: targetY,
-      dropScale: 1,
-    },
+  const { posY } = useSpring({
+    from: { posY: animate ? GRID_SIZE + 1 : targetY },
+    to: { posY: targetY },
     config: {
       mass: 1,
       tension: 200,
@@ -70,18 +64,18 @@ function Piece({ position, player, isWinning, isLastMove, animate, targetY }) {
     },
   });
 
-  // Last move or winning: pulsing scale and glow
-  const shouldPulse = (isLastMove || isWinning) && !animate;
+  // Pulsing for last move or winning pieces
+  const shouldPulse = isLastMove || isWinning;
   const baseIntensity = isLastMove ? 0.5 : 0.2;
   
   const { pulseScale, emissiveIntensity } = useSpring({
     from: { 
       pulseScale: 1,
-      emissiveIntensity: isWinning ? 0.5 : baseIntensity 
+      emissiveIntensity: baseIntensity 
     },
     to: { 
-      pulseScale: shouldPulse ? 1.12 : 1,
-      emissiveIntensity: isWinning ? 1.5 : baseIntensity 
+      pulseScale: shouldPulse ? 1.15 : 1,
+      emissiveIntensity: shouldPulse ? (isWinning ? 1.5 : 0.8) : baseIntensity 
     },
     loop: shouldPulse ? { reverse: true } : false,
     config: { duration: isWinning ? 500 : 800 },
@@ -92,7 +86,7 @@ function Piece({ position, player, isWinning, isLastMove, animate, targetY }) {
       position-x={position[0]}
       position-y={posY}
       position-z={position[2]}
-      scale={shouldPulse ? pulseScale.to(p => dropScale.get() * p) : dropScale}
+      scale={pulseScale}
       castShadow
     >
       <sphereGeometry args={[0.35, 32, 32]} />
