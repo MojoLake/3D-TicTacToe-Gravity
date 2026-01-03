@@ -1375,7 +1375,7 @@ canvas {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 4.5rem;
+  top: 8rem;
   font-size: 0.85rem;
   color: var(--color-text-dim);
   background: var(--color-bg-secondary);
@@ -1486,7 +1486,7 @@ canvas {
   }
   
   .online-player-info {
-    top: 4rem;
+    top: 5.5rem;
     font-size: 0.75rem;
     padding: 0.3rem 0.6rem;
   }
