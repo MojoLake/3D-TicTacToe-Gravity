@@ -633,7 +633,7 @@ canvas {
   }
 }
 
-/* Last move highlight - pulsing border and background */
+/* Last move highlight - pulsing border only */
 .move-panel-cell.last-move-player-0 {
   animation: lastMovePulse0 1.5s ease-in-out infinite;
 }
@@ -645,12 +645,10 @@ canvas {
 @keyframes lastMovePulse0 {
   0%, 100% {
     border-color: #ffd700;
-    background: rgba(255, 215, 0, 0.25);
     box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
   }
   50% {
     border-color: #b8960b;
-    background: rgba(255, 215, 0, 0.1);
     box-shadow: 0 0 4px rgba(255, 215, 0, 0.2);
   }
 }
@@ -658,12 +656,10 @@ canvas {
 @keyframes lastMovePulse1 {
   0%, 100% {
     border-color: #ffa500;
-    background: rgba(255, 165, 0, 0.25);
     box-shadow: 0 0 8px rgba(255, 165, 0, 0.4);
   }
   50% {
     border-color: #b87400;
-    background: rgba(255, 165, 0, 0.1);
     box-shadow: 0 0 4px rgba(255, 165, 0, 0.2);
   }
 }
