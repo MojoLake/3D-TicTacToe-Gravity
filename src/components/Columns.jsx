@@ -7,6 +7,8 @@ const PLAYER_COLORS = {
   1: '#5c4033'  // Dark walnut wood
 }
 
+const HIGHLIGHT_COLOR = '#5c4033' // Dark walnut for both players
+
 export default function Columns() {
   const columns = []
   
@@ -95,7 +97,7 @@ function Column({ x, z }) {
       <animated.mesh position={[0, GRID_SIZE / 2, 0]} renderOrder={10}>
         <boxGeometry args={[0.9, GRID_SIZE, 0.9]} />
         <animated.meshBasicMaterial
-          color={PLAYER_COLORS[currentPlayer]}
+          color={HIGHLIGHT_COLOR}
           transparent
           opacity={opacity}
           depthWrite={false}
