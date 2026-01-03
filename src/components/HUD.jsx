@@ -13,6 +13,7 @@ export default function HUD() {
   const selectedBotId = useGameStore((state) => state.selectedBotId)
   const setSelectedBot = useGameStore((state) => state.setSelectedBot)
   const botPlayer = useGameStore((state) => state.botPlayer)
+  const setHumanPlayer = useGameStore((state) => state.setHumanPlayer)
   
   const showGameOverModal = useGameStore((state) => state.showGameOverModal)
   
@@ -94,18 +95,39 @@ export default function HUD() {
         </div>
         
         {isSinglePlayer && (
-          <div className="bot-selector">
-            <label>Bot:</label>
-            <select 
-              value={selectedBotId} 
-              onChange={(e) => setSelectedBot(e.target.value)}
-            >
-              {Object.values(BOTS).map((bot) => (
-                <option key={bot.id} value={bot.id}>
-                  {bot.name}
-                </option>
-              ))}
-            </select>
+          <div className="single-player-settings">
+            <div className="color-selector">
+              <label>Play as:</label>
+              <div className="color-buttons">
+                <button
+                  className={`color-btn light ${botPlayer === 1 ? 'active' : ''}`}
+                  onClick={() => setHumanPlayer(0)}
+                  title="Play as Light (first)"
+                >
+                  <span className="color-piece light-piece" />
+                </button>
+                <button
+                  className={`color-btn dark ${botPlayer === 0 ? 'active' : ''}`}
+                  onClick={() => setHumanPlayer(1)}
+                  title="Play as Dark (second)"
+                >
+                  <span className="color-piece dark-piece" />
+                </button>
+              </div>
+            </div>
+            <div className="bot-selector">
+              <label>Bot:</label>
+              <select 
+                value={selectedBotId} 
+                onChange={(e) => setSelectedBot(e.target.value)}
+              >
+                {Object.values(BOTS).map((bot) => (
+                  <option key={bot.id} value={bot.id}>
+                    {bot.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         )}
       </div>

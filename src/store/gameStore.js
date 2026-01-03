@@ -112,6 +112,12 @@ const useGameStore = create((set, get) => ({
     set({ selectedBotId: botId })
   },
   
+  // Set which player the human plays as (bot gets the other)
+  setHumanPlayer: (player) => {
+    set({ botPlayer: player === 0 ? 1 : 0 })
+    get().resetGame()
+  },
+  
   // Check if it's currently the bot's turn
   isBotTurn: () => {
     const state = get()
