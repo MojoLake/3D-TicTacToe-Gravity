@@ -27,7 +27,7 @@ export const THEMES = {
     // Board & environment colors
     sceneBackground: '#e8dcc8',
     gridLineColor: '#8b7355',
-    platformColor: '#d4a86a',
+    platformColor: '#c4944a',
     indicatorColor: '#a08060',
     highlightColor: '#5c4033',
   },
@@ -56,7 +56,7 @@ export const THEMES = {
     // Board & environment colors
     sceneBackground: '#f9d5dc',
     gridLineColor: '#e05588',
-    platformColor: '#f78fa8',
+    platformColor: '#f06090',
     indicatorColor: '#e879a9',
     highlightColor: '#be185d',
   },
@@ -85,7 +85,7 @@ export const THEMES = {
     // Board & environment colors
     sceneBackground: '#c8e8f8',
     gridLineColor: '#2a7090',
-    platformColor: '#5cc8f0',
+    platformColor: '#30a8e0',
     indicatorColor: '#67c3dc',
     highlightColor: '#0c4a6e',
   },
@@ -114,7 +114,7 @@ export const THEMES = {
     // Board & environment colors
     sceneBackground: '#e8d8f8',
     gridLineColor: '#7c4dbd',
-    platformColor: '#b888e8',
+    platformColor: '#9858d8',
     indicatorColor: '#a78bfa',
     highlightColor: '#6b21a8',
   },
@@ -143,7 +143,7 @@ export const THEMES = {
     // Board & environment colors
     sceneBackground: '#d8d8d8',
     gridLineColor: '#505050',
-    platformColor: '#909090',
+    platformColor: '#707070',
     indicatorColor: '#707070',
     highlightColor: '#171717',
   },
