@@ -1,8 +1,12 @@
 import { useMemo } from 'react'
 import { GRID_SIZE } from '../game/winningLines'
+import useThemeStore, { THEMES } from '../store/themeStore'
 
 // Creates the wireframe structure of the 4x4x4 board
 export default function Board() {
+  const theme = useThemeStore((state) => state.theme)
+  const themeConfig = THEMES[theme]
+  
   const lines = useMemo(() => {
     const result = []
     const s = GRID_SIZE
@@ -47,7 +51,7 @@ export default function Board() {
     <group>
       {/* Grid lines */}
       {lines.map(({ start, end, key }) => (
-        <Line key={key} start={start} end={end} />
+        <Line key={key} start={start} end={end} gridLineColor={themeConfig.gridLineColor} />
       ))}
       
       {/* Level platforms - use polygonOffset to prevent z-fighting with grid lines */}
@@ -55,7 +59,7 @@ export default function Board() {
         <mesh key={`platform-${y}`} position={[2, y - 0.015, 2]} renderOrder={-1}>
           <boxGeometry args={[4, 0.02, 4]} />
           <meshStandardMaterial 
-            color="#c4a574"
+            color={themeConfig.platformColor}
             transparent
             opacity={y === 0 ? 0.95 : 0.4}
             metalness={0.1}
@@ -71,7 +75,7 @@ export default function Board() {
 }
 
 // Simple line component using a thin box
-function Line({ start, end }) {
+function Line({ start, end, gridLineColor }) {
   const [x1, y1, z1] = start
   const [x2, y2, z2] = end
   
@@ -97,7 +101,7 @@ function Line({ start, end }) {
     <mesh position={[midX, midY, midZ]} renderOrder={1}>
       <boxGeometry args={size} />
       <meshStandardMaterial 
-        color="#8b7355"
+        color={gridLineColor}
         transparent
         opacity={0.95}
         metalness={0.1}

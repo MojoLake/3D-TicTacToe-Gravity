@@ -1,22 +1,31 @@
 import { useSpring, animated } from '@react-spring/three'
 import useGameStore, { GAME_MODES } from '../store/gameStore'
 import useMultiplayerStore from '../store/multiplayerStore'
+import useThemeStore, { THEMES } from '../store/themeStore'
 import { GRID_SIZE } from '../game/winningLines'
 
-const PLAYER_COLORS = {
-  0: '#deb887', // Light maple wood
-  1: '#5c4033'  // Dark walnut wood
-}
-
-const HIGHLIGHT_COLOR = '#5c4033' // Dark walnut for both players
-
 export default function Columns() {
+  const theme = useThemeStore((state) => state.theme)
+  const themeConfig = THEMES[theme]
+  
+  const playerColors = {
+    0: themeConfig.player1Color,
+    1: themeConfig.player2Color,
+  }
+  
   const columns = []
   
   for (let x = 0; x < GRID_SIZE; x++) {
     for (let z = 0; z < GRID_SIZE; z++) {
       columns.push(
-        <Column key={`col-${x}-${z}`} x={x} z={z} />
+        <Column 
+          key={`col-${x}-${z}`} 
+          x={x} 
+          z={z} 
+          playerColors={playerColors}
+          highlightColor={themeConfig.highlightColor}
+          indicatorColor={themeConfig.indicatorColor}
+        />
       )
     }
   }
@@ -24,7 +33,7 @@ export default function Columns() {
   return <group>{columns}</group>
 }
 
-function Column({ x, z }) {
+function Column({ x, z, playerColors, highlightColor, indicatorColor }) {
   const dropPiece = useGameStore((state) => state.dropPiece)
   const getDropY = useGameStore((state) => state.getDropY)
   const currentPlayer = useGameStore((state) => state.currentPlayer)
@@ -110,7 +119,7 @@ function Column({ x, z }) {
       <animated.mesh position={[0, GRID_SIZE / 2, 0]} renderOrder={10}>
         <boxGeometry args={[0.9, GRID_SIZE, 0.9]} />
         <animated.meshBasicMaterial
-          color={HIGHLIGHT_COLOR}
+          color={highlightColor}
           transparent
           opacity={opacity}
           depthWrite={false}
@@ -127,10 +136,10 @@ function Column({ x, z }) {
         >
           <sphereGeometry args={[0.35, 16, 16]} />
           <animated.meshStandardMaterial
-            color={PLAYER_COLORS[currentPlayer]}
+            color={playerColors[currentPlayer]}
             transparent
             opacity={ghostOpacity}
-            emissive={PLAYER_COLORS[currentPlayer]}
+            emissive={playerColors[currentPlayer]}
             emissiveIntensity={0.5}
             depthTest={false}
           />
@@ -141,10 +150,10 @@ function Column({ x, z }) {
       <mesh position={[0, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={2}>
         <circleGeometry args={[0.4, 32]} />
         <meshStandardMaterial
-          color={isHovered && !isFull && !gameOver && !cantInteract ? PLAYER_COLORS[currentPlayer] : '#a08060'}
+          color={isHovered && !isFull && !gameOver && !cantInteract ? playerColors[currentPlayer] : indicatorColor}
           transparent
           opacity={0.5}
-          emissive={isHovered && !isFull && !gameOver && !cantInteract ? PLAYER_COLORS[currentPlayer] : '#000000'}
+          emissive={isHovered && !isFull && !gameOver && !cantInteract ? playerColors[currentPlayer] : '#000000'}
           emissiveIntensity={isHovered ? 0.3 : 0}
           polygonOffset
           polygonOffsetFactor={-1}

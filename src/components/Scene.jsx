@@ -14,6 +14,9 @@ export default function Scene() {
   
   return (
     <>
+      {/* Scene background color */}
+      <color attach="background" args={[themeConfig.sceneBackground]} />
+      
       {/* Lighting - themed tones */}
       <ambientLight intensity={0.8} color={themeConfig.ambientColor} />
       <directionalLight 

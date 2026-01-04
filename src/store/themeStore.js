@@ -24,6 +24,12 @@ export const THEMES = {
     floorColor: '#d4c4a8',
     ambientColor: '#fff5e6',
     lightColor: '#fff8f0',
+    // Board & environment colors
+    sceneBackground: '#f5f0e6',
+    gridLineColor: '#8b7355',
+    platformColor: '#c4a574',
+    indicatorColor: '#a08060',
+    highlightColor: '#5c4033',
   },
   rose: {
     id: 'rose',
@@ -47,6 +53,12 @@ export const THEMES = {
     floorColor: '#fce7eb',
     ambientColor: '#fff5f7',
     lightColor: '#fff0f3',
+    // Board & environment colors
+    sceneBackground: '#fdf2f4',
+    gridLineColor: '#d4648a',
+    platformColor: '#f9a8b8',
+    indicatorColor: '#e879a9',
+    highlightColor: '#be185d',
   },
   ocean: {
     id: 'ocean',
@@ -70,6 +82,12 @@ export const THEMES = {
     floorColor: '#e0f2fe',
     ambientColor: '#f0f9ff',
     lightColor: '#e0f7ff',
+    // Board & environment colors
+    sceneBackground: '#f0f9ff',
+    gridLineColor: '#4a90a4',
+    platformColor: '#7dd3fc',
+    indicatorColor: '#67c3dc',
+    highlightColor: '#0c4a6e',
   },
   violet: {
     id: 'violet',
@@ -93,6 +111,12 @@ export const THEMES = {
     floorColor: '#f3e8ff',
     ambientColor: '#faf5ff',
     lightColor: '#f5f0ff',
+    // Board & environment colors
+    sceneBackground: '#faf5ff',
+    gridLineColor: '#8b5cf6',
+    platformColor: '#d8b4fe',
+    indicatorColor: '#a78bfa',
+    highlightColor: '#6b21a8',
   },
   mono: {
     id: 'mono',
@@ -116,6 +140,12 @@ export const THEMES = {
     floorColor: '#e5e5e5',
     ambientColor: '#ffffff',
     lightColor: '#ffffff',
+    // Board & environment colors
+    sceneBackground: '#f5f5f5',
+    gridLineColor: '#666666',
+    platformColor: '#a3a3a3',
+    indicatorColor: '#888888',
+    highlightColor: '#171717',
   },
 }
 
