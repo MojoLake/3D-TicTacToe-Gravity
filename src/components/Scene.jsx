@@ -3,24 +3,28 @@ import Board from './Board'
 import Pieces from './Pieces'
 import Columns from './Columns'
 import useGameStore from '../store/gameStore'
+import useThemeStore, { THEMES } from '../store/themeStore'
 
 export default function Scene() {
   const isHoveringBoard = useGameStore((state) => state.isHoveringBoard)
   const autoRotateEnabled = useGameStore((state) => state.autoRotateEnabled)
+  const theme = useThemeStore((state) => state.theme)
+  
+  const themeConfig = THEMES[theme]
   
   return (
     <>
-      {/* Lighting - warm white tones */}
-      <ambientLight intensity={0.8} color="#fff5e6" />
+      {/* Lighting - themed tones */}
+      <ambientLight intensity={0.8} color={themeConfig.ambientColor} />
       <directionalLight 
         position={[10, 15, 10]} 
         intensity={1.2} 
-        color="#fff8f0"
+        color={themeConfig.lightColor}
         castShadow
         shadow-mapSize={[2048, 2048]}
       />
-      <pointLight position={[-5, 5, -5]} intensity={0.4} color="#ffd699" />
-      <pointLight position={[5, 5, 5]} intensity={0.4} color="#ffe4c4" />
+      <pointLight position={[-5, 5, -5]} intensity={0.4} color={themeConfig.lightColor} />
+      <pointLight position={[5, 5, 5]} intensity={0.4} color={themeConfig.lightColor} />
       
       {/* Environment for reflections */}
       <Environment preset="apartment" />
@@ -32,11 +36,11 @@ export default function Scene() {
         <Columns />
       </group>
       
-      {/* Floor plane - warm wood surface */}
+      {/* Floor plane - themed surface */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} receiveShadow renderOrder={-10}>
         <planeGeometry args={[20, 20]} />
         <meshStandardMaterial 
-          color="#d4c4a8" 
+          color={themeConfig.floorColor} 
           metalness={0.05}
           roughness={0.9}
         />

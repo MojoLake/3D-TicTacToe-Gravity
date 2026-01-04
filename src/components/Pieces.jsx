@@ -2,22 +2,24 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useSpring, animated } from "@react-spring/three";
 import useGameStore from "../store/gameStore";
+import useThemeStore, { THEMES } from "../store/themeStore";
 import { GRID_SIZE } from "../game/winningLines";
-
-const PLAYER_COLORS = {
-  0: "#deb887", // Light wood (burlywood)
-  1: "#5c4033", // Dark wood (brown)
-};
-
-const PLAYER_EMISSIVE = {
-  0: "#c4a574",
-  1: "#3d2817",
-};
 
 export default function Pieces() {
   const board = useGameStore((state) => state.board);
   const winningLine = useGameStore((state) => state.winningLine);
   const lastMove = useGameStore((state) => state.lastMove);
+  const theme = useThemeStore((state) => state.theme);
+  
+  const themeConfig = THEMES[theme];
+  const playerColors = {
+    0: themeConfig.player1Color,
+    1: themeConfig.player2Color,
+  };
+  const playerEmissive = {
+    0: themeConfig.player1Emissive,
+    1: themeConfig.player2Emissive,
+  };
 
   const pieces = [];
 
@@ -44,6 +46,8 @@ export default function Pieces() {
               isLastMove={isLastMove}
               animate={isLastMove}
               targetY={y + 0.5}
+              playerColors={playerColors}
+              playerEmissive={playerEmissive}
             />
           );
         }
@@ -54,7 +58,7 @@ export default function Pieces() {
   return <group>{pieces}</group>;
 }
 
-function Piece({ position, player, isWinning, isLastMove, animate, targetY }) {
+function Piece({ position, player, isWinning, isLastMove, animate, targetY, playerColors, playerEmissive }) {
   const meshRef = useRef();
   const materialRef = useRef();
   
@@ -101,8 +105,8 @@ function Piece({ position, player, isWinning, isLastMove, animate, targetY }) {
       <sphereGeometry args={[0.35, 32, 32]} />
       <meshStandardMaterial
         ref={materialRef}
-        color={PLAYER_COLORS[player]}
-        emissive={PLAYER_EMISSIVE[player]}
+        color={playerColors[player]}
+        emissive={playerEmissive[player]}
         emissiveIntensity={shouldPulse ? undefined : 0.2}
         metalness={0.3}
         roughness={0.2}
