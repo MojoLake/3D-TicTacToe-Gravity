@@ -18,12 +18,82 @@
   --font-main: 'Outfit', Georgia, serif;
 }
 
+/* Theme: Earth (default) */
+.theme-earth {
+  --color-bg: #f5f0e6;
+  --color-bg-secondary: #ebe4d6;
+  --color-player1: #deb887;
+  --color-player1-glow: rgba(222, 184, 135, 0.5);
+  --color-player2: #5c4033;
+  --color-player2-glow: rgba(92, 64, 51, 0.5);
+  --color-text: #3d2817;
+  --color-text-dim: #8b7355;
+  --color-accent: #8b7355;
+  --color-border: #c4a574;
+}
+
+/* Theme: Rose */
+.theme-rose {
+  --color-bg: #fdf2f4;
+  --color-bg-secondary: #fce7eb;
+  --color-player1: #f9a8b8;
+  --color-player1-glow: rgba(249, 168, 184, 0.5);
+  --color-player2: #be185d;
+  --color-player2-glow: rgba(190, 24, 93, 0.5);
+  --color-text: #831843;
+  --color-text-dim: #d4648a;
+  --color-accent: #d4648a;
+  --color-border: #f9a8b8;
+}
+
+/* Theme: Ocean */
+.theme-ocean {
+  --color-bg: #f0f9ff;
+  --color-bg-secondary: #e0f2fe;
+  --color-player1: #38bdf8;
+  --color-player1-glow: rgba(56, 189, 248, 0.5);
+  --color-player2: #0c4a6e;
+  --color-player2-glow: rgba(12, 74, 110, 0.5);
+  --color-text: #0c4a6e;
+  --color-text-dim: #4a90a4;
+  --color-accent: #4a90a4;
+  --color-border: #7dd3fc;
+}
+
+/* Theme: Violet */
+.theme-violet {
+  --color-bg: #faf5ff;
+  --color-bg-secondary: #f3e8ff;
+  --color-player1: #c084fc;
+  --color-player1-glow: rgba(192, 132, 252, 0.5);
+  --color-player2: #6b21a8;
+  --color-player2-glow: rgba(107, 33, 168, 0.5);
+  --color-text: #581c87;
+  --color-text-dim: #8b5cf6;
+  --color-accent: #8b5cf6;
+  --color-border: #d8b4fe;
+}
+
+/* Theme: Mono (Black & White) */
+.theme-mono {
+  --color-bg: #f5f5f5;
+  --color-bg-secondary: #e5e5e5;
+  --color-player1: #fafafa;
+  --color-player1-glow: rgba(250, 250, 250, 0.5);
+  --color-player2: #171717;
+  --color-player2-glow: rgba(23, 23, 23, 0.5);
+  --color-text: #171717;
+  --color-text-dim: #666666;
+  --color-accent: #666666;
+  --color-border: #a3a3a3;
+}
+
 html, body, #root {
   width: 100%;
   height: 100%;
   overflow: hidden;
   font-family: var(--font-main);
-  background: linear-gradient(135deg, #f5f0e6 0%, #e8dcc8 100%);
+  background: var(--color-bg);
   color: var(--color-text);
 }
 
@@ -1494,5 +1564,230 @@ canvas {
   .player-badge {
     padding: 0.1rem 0.4rem;
     font-size: 0.7rem;
+  }
+}
+
+/* ===============================================
+   SETTINGS MODAL STYLES
+   =============================================== */
+
+/* Settings Button */
+.settings-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  color: var(--color-text-dim);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(92, 64, 51, 0.1);
+}
+
+.settings-btn:hover {
+  background: var(--color-border);
+  color: white;
+}
+
+/* Settings Overlay */
+.settings-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+  z-index: 200;
+}
+
+/* Settings Modal */
+.settings-modal {
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  border-radius: 1.5rem;
+  padding: 2rem 2.5rem;
+  min-width: 320px;
+  max-width: 90vw;
+  animation: scaleIn 0.2s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.settings-modal h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.settings-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 0.5rem;
+  color: var(--color-text-dim);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.settings-close-btn:hover {
+  background: var(--color-bg-secondary);
+  color: var(--color-text);
+}
+
+/* Settings Section */
+.settings-section {
+  margin-bottom: 1.5rem;
+}
+
+.settings-section:last-child {
+  margin-bottom: 0;
+}
+
+.settings-section h3 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-dim);
+  margin-bottom: 1rem;
+}
+
+/* Theme Grid */
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 0.75rem;
+}
+
+.theme-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-option:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.theme-option.active {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+.theme-preview {
+  width: 48px;
+  height: 48px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.theme-preview-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.theme-preview-pieces {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.theme-preview-piece {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+
+.theme-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Settings responsive */
+@media (max-width: 500px) {
+  .settings-modal {
+    padding: 1.5rem;
+    border-radius: 1rem;
+    margin: 1rem;
+  }
+  
+  .settings-modal h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .theme-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .theme-option {
+    padding: 0.5rem;
+  }
+  
+  .theme-preview {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .theme-preview-piece {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .theme-name {
+    font-size: 0.65rem;
+  }
+  
+  .settings-btn {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .settings-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 400px) {
+  .settings-btn {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .settings-btn svg {
+    width: 14px;
+    height: 14px;
   }
 }
