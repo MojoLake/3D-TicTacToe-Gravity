@@ -202,6 +202,9 @@ export default function HUD({ onOpenSettings }) {
             <kbd>Drag</kbd> to rotate • 
             <kbd>Scroll</kbd> to zoom
           </p>
+          <p className="credit">
+            Made by <a href="https://elias.simojoki.dev" target="_blank" rel="noopener noreferrer">Elias Simojoki</a>
+          </p>
         </div>
       )}
     </>

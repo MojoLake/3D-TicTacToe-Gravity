@@ -58,6 +58,13 @@ export default function SettingsModal({ onClose }) {
             ))}
           </div>
         </div>
+        
+        <div className="settings-section about-section">
+          <h3>About</h3>
+          <p className="about-text">
+            Created by <a href="https://elias.simojoki.dev" target="_blank" rel="noopener noreferrer">Elias Simojoki</a>
+          </p>
+        </div>
       </div>
     </div>
   )
